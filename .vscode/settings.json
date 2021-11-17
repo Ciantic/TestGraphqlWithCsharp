@@ -1,0 +1,10 @@
+{
+    "editor.formatOnSave": false,
+    "omnisharp.enableRoslynAnalyzers": true,
+    "omnisharp.enableEditorConfigSupport": true,
+    "triggerTaskOnSave.restart": false,
+    "triggerTaskOnSave.on": true,
+    "triggerTaskOnSave.tasks": {
+        "format (current file)": ["**/*.cs"]
+    }
+}

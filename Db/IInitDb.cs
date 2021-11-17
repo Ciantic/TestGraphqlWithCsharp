@@ -1,0 +1,4 @@
+interface IInitDb
+{
+    Task Init();
+}
