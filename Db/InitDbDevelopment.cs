@@ -3,12 +3,9 @@
 public class InitDbDevelopment : IInitDb
 {
     private readonly AppDbContext appDbContext;
-    private readonly IPasswordHasher<IdentityUser> passwordHasher;
+    private readonly IPasswordHasher<AppUser> passwordHasher;
 
-    public InitDbDevelopment(
-        AppDbContext appDbContext,
-        IPasswordHasher<IdentityUser> passwordHasher
-    )
+    public InitDbDevelopment(AppDbContext appDbContext, IPasswordHasher<AppUser> passwordHasher)
     {
         this.appDbContext = appDbContext;
         this.passwordHasher = passwordHasher;
@@ -38,13 +35,13 @@ public class InitDbDevelopment : IInitDb
     }
 
     private int guidId = 1;
-    private IdentityUser GenerateApplicationUser(string emailPrefix)
+    private AppUser GenerateApplicationUser(string emailPrefix)
     {
         var email = GenerateUniqueEmail(emailPrefix);
         var id = Guid.Parse("00000000-0000-0000-0000-00000000000" + guidId++);
-        return new IdentityUser()
+        return new AppUser()
         {
-            Id = id.ToString(),
+            Id = id,
             Email = email,
             UserName = email,
             PasswordHash = passwordHasher.HashPassword(null!, "!Pass1"),
@@ -57,7 +54,7 @@ public class InitDbDevelopment : IInitDb
     }
 
     private int guidIdThingie = 1;
-    private Thingie GenerateThing(IdentityUser user)
+    private Thingie GenerateThing(AppUser user)
     {
         var id = Guid.Parse("00000000-0000-0000-0001-00000000000" + guidIdThingie++);
 

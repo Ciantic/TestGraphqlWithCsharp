@@ -30,6 +30,7 @@ public class Program
             .AddHttpRequestInterceptor<UserIdHttpRequestInterceptor>()
             .AddMutationType<BusinessLogic>()
             .AddQueryType<Query>()
+            .AddType<AppUserType>()
             .ConfigureResolverCompiler(
                 c =>
                 {
@@ -48,7 +49,7 @@ public class Program
             .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie();
 
-        builder.Services.AddIdentityCore<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
+        builder.Services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<AppDbContext>();
 
         builder.Services.Configure<IdentityOptions>(
             options =>

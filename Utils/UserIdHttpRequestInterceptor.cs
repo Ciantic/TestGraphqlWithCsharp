@@ -5,25 +5,24 @@ using Microsoft.AspNetCore.Identity;
 
 public class CurrentUser
 {
-    readonly UserManager<IdentityUser> _userManager;
+    readonly UserManager<AppUser> _userManager;
 
-    public CurrentUser(string userId, string email, UserManager<IdentityUser> requestExecutor)
+    readonly ClaimsPrincipal _principal;
+
+    public CurrentUser(ClaimsPrincipal principal, UserManager<AppUser> requestExecutor)
     {
-        this._userManager = requestExecutor;
-        this.UserId = userId;
-        this.Email = email;
+        _userManager = requestExecutor;
+        _principal = principal;
     }
 
-    public string UserId { get; }
-    public string Email { get; }
-
-    public Task<IdentityUser> User
+    public Guid Id
     {
-        get
-        {
+        get { return Guid.Parse(_userManager.GetUserId(_principal)); }
+    }
 
-            return _userManager.FindByIdAsync(UserId);
-        }
+    public Task<AppUser> User
+    {
+        get { return _userManager.GetUserAsync(_principal); }
     }
 }
 
@@ -36,10 +35,13 @@ public class UserIdHttpRequestInterceptor : DefaultHttpRequestInterceptor
         CancellationToken cancellationToken
     )
     {
-        string userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
-        string email = context.User.FindFirst(ClaimTypes.Name)?.Value ?? "";
-        var m = context.RequestServices.GetRequiredService<UserManager<IdentityUser>>();
-        requestBuilder.SetProperty("CurrentUser", new CurrentUser(userId, email, m));
+        var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
+        var email = context.User.FindFirst(ClaimTypes.Name)?.Value ?? "";
+        if (userId != "" && email != "")
+        {
+            var userManager = context.RequestServices.GetRequiredService<UserManager<AppUser>>();
+            requestBuilder.SetProperty("CurrentUser", new CurrentUser(context.User, userManager));
+        }
         return base.OnCreateAsync(context, requestExecutor, requestBuilder, cancellationToken);
     }
 }

@@ -11,10 +11,10 @@ public partial class BusinessLogic
         public string PasswordPlain { get; set; } = "";
     }
 
-    public async Task<IdentityUser> Login(
+    public async Task<AppUser> Login(
         LoginInput input,
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] UserManager<IdentityUser> userManager
+        [Service] UserManager<AppUser> userManager
     )
     {
         var context = httpContextAccessor.HttpContext;
@@ -37,7 +37,7 @@ public partial class BusinessLogic
         var claimsIdentity = new ClaimsIdentity(
             new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Email),
                 // new Claim(ClaimTypes.Role, "Administrator"),
             },

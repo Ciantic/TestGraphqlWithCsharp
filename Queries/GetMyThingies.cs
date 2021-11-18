@@ -11,6 +11,6 @@ public partial class Query
     [UseSorting]
     public IQueryable<Thingie> GetMyThingies(AppDbContext dbContext, [CurrentUser] CurrentUser user)
     {
-        return dbContext.Thingies.Where(f => f.Owner.Id == user.UserId);
+        return dbContext.Thingies.Where(f => f.Owner.Id == user.Id);
     }
 }
