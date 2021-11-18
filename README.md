@@ -91,6 +91,3 @@ mutation {
 
 ```
 
-
-## TODO:
-- Fix: Currently one can navigate `AppUser`'s all fields, including PasswordHash from projections
