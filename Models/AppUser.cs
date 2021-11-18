@@ -12,10 +12,11 @@ public class AppUserType : ObjectType<AppUser>
 {
     protected override void Configure(IObjectTypeDescriptor<AppUser> descriptor)
     {
+        // Require some authorization to even fetch
         descriptor.Authorize();
 
-        // descriptor.Field(f => f.PasswordHash).Authorize();
+        // Hide PasswordHash from graphql querying
         descriptor.Ignore(f => f.PasswordHash);
-        // TODO: Can we completly disallow somehow here?
+        // TODO: Can we disallow fetching some one elses user details in here?
     }
 }
