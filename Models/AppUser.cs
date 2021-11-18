@@ -12,11 +12,16 @@ public class AppUserType : ObjectType<AppUser>
 {
     protected override void Configure(IObjectTypeDescriptor<AppUser> descriptor)
     {
+        // Allow querying only specific fields
+        descriptor.BindFields(BindingBehavior.Explicit);
+        descriptor.Field(f => f.Id);
+        descriptor.Field(f => f.Email);
+        descriptor.Field(f => f.FirstName);
+        descriptor.Field(f => f.LastName);
+
         // Require some authorization to even fetch
         descriptor.Authorize();
-
-        // Hide PasswordHash from graphql querying
-        descriptor.Ignore(f => f.PasswordHash);
-        // TODO: Can we disallow fetching some one elses user details in here?
+        //
+        // TODO: Can we make additional security guarantees right here, like forbidding queries to other user's?
     }
 }
