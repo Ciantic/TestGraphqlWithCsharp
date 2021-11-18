@@ -43,7 +43,13 @@ mutation {
 }
 
 {
-  myThingies(first: 15) {
+  myThingies(first: 15, order: {
+    title: ASC
+  }, where: {
+    title: {
+      startsWith: "foo"
+    }
+  }) {
     pageInfo {
       hasNextPage,
       hasPreviousPage,
@@ -60,7 +66,13 @@ mutation {
 }
 
 {
-  allThingies(first: 15) {
+  allThingies(first: 15, order: {
+    title: ASC
+  }, where: {
+    title: {
+      startsWith: "foo"
+    }
+  }) {
     pageInfo {
       hasNextPage,
       hasPreviousPage,
