@@ -26,6 +26,7 @@ public class Program
 
         var graphQl = builder.Services
             .AddGraphQLServer()
+            .AddAuthorization()
             .AddHttpRequestInterceptor<UserIdHttpRequestInterceptor>()
             .AddMutationType<BusinessLogic>()
             .AddQueryType<Query>()

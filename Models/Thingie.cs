@@ -1,3 +1,4 @@
+using HotChocolate.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 public class Thingie
@@ -9,34 +10,25 @@ public class Thingie
 
 public partial class Query
 {
+    // Only authorized users can query their *own* thingies
+    [Authorize]
     [UsePaging]
     [UseProjection]
     [UseFiltering]
     [UseSorting]
-    public IQueryable<Thingie> Thingies(AppDbContext dbContext, [CurrentUserId] string userId)
+    public IQueryable<Thingie> GetMyThingies(AppDbContext dbContext, [CurrentUser] CurrentUser user)
     {
-        return dbContext.Thingies.Where(f => f.Owner.Id == userId);
+        return dbContext.Thingies.Where(f => f.Owner.Id == user.UserId);
+    }
+
+    // However, if you are not logged in you can query everyones thingies (it's
+    // counterintuitive but this is example)
+    [UsePaging]
+    [UseProjection]
+    [UseFiltering]
+    [UseSorting]
+    public IQueryable<Thingie> GetAllThingies(AppDbContext dbContext)
+    {
+        return dbContext.Thingies;
     }
 }
-
-
-/*
-
-{
-  persons(first: 1, order: {
-  }, where: {
-    firstName: {
-      startsWith: "John"
-    }
-  }) {
-    pageInfo {
-      hasNextPage,
-      endCursor
-    }
-    nodes {
-      id
-      firstName
-    }
-  }
-}
-*/

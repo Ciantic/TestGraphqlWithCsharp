@@ -6,3 +6,75 @@ Experiment! My goal is to write business logic as functions, like it's F# but wi
 
 Number one rule is that these business logic functions must have fully qualified dependencies on the parameters. This way they are easily rewritable in F# when Hot Chocolate is ready for it.
 
+
+
+## Queries
+
+```graphql
+mutation {
+  login(input: {
+    email: "test2@example.com",
+    passwordPlain: "!Pass1",
+  }) {
+    id
+  }
+}
+
+mutation {
+  createThingie(input: {
+    title: "foo foo"
+  }) {
+    id,
+    owner {
+      id
+    }
+  }
+}
+
+mutation { 
+  currentUser {
+    id,
+    email
+  }
+}
+
+mutation {
+  logout
+}
+
+{
+  myThingies(first: 15) {
+    pageInfo {
+      hasNextPage,
+      hasPreviousPage,
+      startCursor
+    }
+    nodes {
+      id,
+      title,
+      owner {
+        id
+      }
+    }
+  }
+}
+
+{
+  allThingies(first: 15) {
+    pageInfo {
+      hasNextPage,
+      hasPreviousPage,
+      startCursor
+    }
+    nodes {
+      id,
+      title,
+      owner {
+        id
+      }
+    }
+  }
+}
+
+
+```

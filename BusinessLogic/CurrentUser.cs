@@ -1,12 +1,11 @@
+using HotChocolate.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 public partial class BusinessLogic
 {
-    public async Task<IdentityUser?> CurrentUser(
-        [CurrentUserId] string userId,
-        [Service] UserManager<IdentityUser> _userManager
-    )
+    [Authorize]
+    public async Task<IdentityUser?> CurrentUser([CurrentUser] CurrentUser user)
     {
-        return await _userManager.FindByIdAsync(userId);
+        return await user.User;
     }
 }
