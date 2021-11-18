@@ -90,3 +90,8 @@ mutation {
 
 
 ```
+
+
+## TODO:
+- Fix: Currently one can navigate `IdentityUser`'s all fields, including PasswordHash from projections
+- Replace `IdentityUser` with `AppUser`, `AppRole`, etc...
