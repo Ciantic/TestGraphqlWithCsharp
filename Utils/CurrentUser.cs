@@ -21,6 +21,16 @@ public class CurrentUser
 
     public Task<AppUser> User
     {
-        get { return _userManager.GetUserAsync(_principal); }
+        get { return GetUser(); }
+    }
+
+    private async Task<AppUser> GetUser()
+    {
+        var user = await _userManager.GetUserAsync(_principal);
+        if (user is null)
+        {
+            throw new Exception("User may have been deleted, but it's claim is still valid?");
+        }
+        return user;
     }
 }
