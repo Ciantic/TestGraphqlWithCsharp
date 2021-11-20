@@ -36,6 +36,7 @@ public class Program
                 c =>
                 {
                     c.AddService<AppDbContext>();
+                    c.AddParameter(f => f.GetGlobalValue<CurrentUser>("CurrentUser")!);
                 }
             )
             .AddFiltering()

@@ -11,6 +11,7 @@ public class CurrentUser
     {
         _userManager = userManager;
         _principal = principal;
+        Console.WriteLine("Current user initiated");
     }
 
     public Guid Id

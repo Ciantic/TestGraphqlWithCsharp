@@ -14,7 +14,7 @@ public partial class BusinessLogic
     async public Task<Thingie?> CreateThingie(
         CreateThingieInput input,
         AppDbContext dbContext,
-        [CurrentUser] CurrentUser user
+        CurrentUser user
     )
     {
         var t = new Thingie() { Title = input.Title, Owner = await user.User };

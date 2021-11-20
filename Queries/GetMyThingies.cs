@@ -9,7 +9,7 @@ public partial class Query
     [UseProjection]
     [UseFiltering]
     [UseSorting]
-    public IQueryable<Thingie> GetMyThingies(AppDbContext dbContext, [CurrentUser] CurrentUser user)
+    public IQueryable<Thingie> GetMyThingies(AppDbContext dbContext, CurrentUser user)
     {
         return dbContext.Thingies.Where(f => f.Owner.Id == user.Id);
     }
