@@ -10,11 +10,12 @@ public class ErrorFilter : IErrorFilter
     public IError OnError(IError error)
     {
         Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(error?.Exception?.GetType().Name);
         Console.WriteLine(error?.Exception?.Message);
         Console.WriteLine("---------------------");
         Console.WriteLine(error?.Exception?.StackTrace);
         Console.ForegroundColor = ConsoleColor.White;
-        return error.WithMessage("foo");
+        return error; //.WithMessage("foo");
     }
 }
 
@@ -27,7 +28,7 @@ public class Program
         var graphQl = builder.Services
             .AddGraphQLServer()
             .AddAuthorization()
-            .AddHttpRequestInterceptor<UserIdHttpRequestInterceptor>()
+            .AddHttpRequestInterceptor<CustomHttpRequestInterceptor>()
             .AddMutationType<BusinessLogic>()
             .AddQueryType<Query>()
             .AddType<AppUserType>()
@@ -127,25 +128,3 @@ public class Program
         app.Run();
     }
 }
-
-
-/*
-
-{
-  persons(first: 1, order: {
-  }, where: {
-    firstName: {
-      startsWith: "John"
-    }
-  }) {
-    pageInfo {
-      hasNextPage,
-      endCursor
-    }
-    nodes {
-      id
-      firstName
-    }
-  }
-}
-*/
