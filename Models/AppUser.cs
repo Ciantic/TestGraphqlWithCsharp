@@ -18,9 +18,9 @@ public class AppUserType : ObjectType<AppUser>
         descriptor.Field(f => f.Email);
         descriptor.Field(f => f.FirstName);
         descriptor.Field(f => f.LastName);
-
         // Require some authorization to even fetch
-        descriptor.Authorize();
+        // descriptor.Authorize();
+        // Above seems to collide with login!
         //
         // TODO: Can we make additional security guarantees right here, like forbidding queries to other user's?
     }

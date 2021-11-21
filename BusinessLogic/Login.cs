@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 public partial class BusinessLogic
 {
@@ -14,7 +15,8 @@ public partial class BusinessLogic
     public async Task<AppUser> Login(
         LoginInput input,
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] UserManager<AppUser> userManager
+        [Service] UserManager<AppUser> userManager,
+        [Service] IOptions<IdentityOptions> identityOptions
     )
     {
         var context = httpContextAccessor.HttpContext;
@@ -34,15 +36,8 @@ public partial class BusinessLogic
             throw new Exception("Check your email or password");
         }
 
-        var claimsIdentity = new ClaimsIdentity(
-            new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Email),
-                // new Claim(ClaimTypes.Role, "Administrator"),
-            },
-            CookieAuthenticationDefaults.AuthenticationScheme
-        );
+        var factory = new UserClaimsPrincipalFactory<AppUser>(userManager, identityOptions);
+        var principal = await factory.CreateAsync(user);
 
         var authProperties = new AuthenticationProperties
         {
@@ -53,7 +48,7 @@ public partial class BusinessLogic
         };
         await context.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
-            new ClaimsPrincipal(claimsIdentity),
+            principal,
             authProperties
         );
         return user;
