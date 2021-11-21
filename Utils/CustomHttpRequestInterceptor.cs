@@ -17,7 +17,7 @@ public class CustomHttpRequestInterceptor : DefaultHttpRequestInterceptor
         return base.OnCreateAsync(context, requestExecutor, requestBuilder, cancellationToken);
     }
 
-    private void AddCurrentUser(HttpContext context, IQueryRequestBuilder requestBuilder)
+    private static void AddCurrentUser(HttpContext context, IQueryRequestBuilder requestBuilder)
     {
         if (context.User.HasClaim(claim => claim.Type == ClaimTypes.NameIdentifier))
         {
@@ -26,7 +26,7 @@ public class CustomHttpRequestInterceptor : DefaultHttpRequestInterceptor
         }
     }
 
-    private void AddIdempotencyKey(HttpContext context, IQueryRequestBuilder requestBuilder)
+    private static void AddIdempotencyKey(HttpContext context, IQueryRequestBuilder requestBuilder)
     {
         var id = context.Request.Headers["Idempotency-Key"].FirstOrDefault();
         if (id != null && id != "")
@@ -35,7 +35,7 @@ public class CustomHttpRequestInterceptor : DefaultHttpRequestInterceptor
             {
                 requestBuilder.SetProperty("IdempotencyKey", Guid.Parse(id));
             }
-            catch (FormatException e) { }
+            catch (FormatException) { }
         }
     }
 }

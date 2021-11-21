@@ -13,7 +13,7 @@ public class ErrorFilter : IErrorFilter
         Console.WriteLine("---------------------");
         Console.WriteLine(error?.Exception?.StackTrace);
         Console.ForegroundColor = ConsoleColor.White;
-        return error; //.WithMessage("foo");
+        return error!; //.WithMessage("foo");
     }
 }
 
