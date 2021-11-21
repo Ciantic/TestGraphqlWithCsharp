@@ -19,9 +19,7 @@ public class CustomHttpRequestInterceptor : DefaultHttpRequestInterceptor
 
     private void AddCurrentUser(HttpContext context, IQueryRequestBuilder requestBuilder)
     {
-        var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "";
-        var email = context.User.FindFirst(ClaimTypes.Name)?.Value ?? "";
-        if (userId != "" && email != "")
+        if (context.User.HasClaim(claim => claim.Type == ClaimTypes.NameIdentifier))
         {
             var userManager = context.RequestServices.GetRequiredService<UserManager<AppUser>>();
             requestBuilder.SetProperty("CurrentUser", new CurrentUser(context.User, userManager));

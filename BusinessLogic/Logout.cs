@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 
 public partial class BusinessLogic
 {
@@ -10,7 +11,7 @@ public partial class BusinessLogic
         {
             throw new Exception("HTTP Context is missing");
         }
-        await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        await context.SignOutAsync(IdentityConstants.ApplicationScheme);
         return true;
     }
 }

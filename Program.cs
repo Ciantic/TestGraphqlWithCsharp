@@ -1,9 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.DependencyInjection;
 
 public class ErrorFilter : IErrorFilter
 {
@@ -50,8 +48,9 @@ public class Program
             .AddAuthorization()
             .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie();
+        // .AddIdentityCookies();
 
-        builder.Services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<AppDbContext>();
+        builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>();
 
         builder.Services.Configure<IdentityOptions>(
             options =>
