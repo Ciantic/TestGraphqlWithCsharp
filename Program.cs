@@ -26,7 +26,6 @@ public class Program
         var graphQl = builder.Services
             .AddGraphQLServer()
             .AddAuthorization()
-            .AddHttpRequestInterceptor<CustomHttpRequestInterceptor>()
             .AddMutationType<BusinessLogic>()
             .AddQueryType<Query>()
             .AddType<AppUserType>()
@@ -34,7 +33,9 @@ public class Program
                 c =>
                 {
                     c.AddService<AppDbContext>();
-                    c.AddParameter(f => f.GetGlobalValue<CurrentUser>("CurrentUser")!);
+                    c.AddService<CurrentUser>();
+                    c.AddService<IdempotencyKey>();
+                    // c.AddParameter(f => f.GetGlobalValue<CurrentUser>("CurrentUser")!);
                 }
             )
             .AddFiltering()
@@ -43,6 +44,9 @@ public class Program
 
         builder.Services
             .AddScoped<IInitDb, InitDbDevelopment>()
+            .AddSingleton<Events, Events>()
+            .AddScoped<CurrentUser>()
+            .AddScoped<IdempotencyKey>()
             .AddHttpContextAccessor()
             .AddAuthorization()
             .AddAuthentication();
@@ -85,6 +89,12 @@ public class Program
         {
             var init = scoped.ServiceProvider.GetRequiredService<IInitDb>();
             await init.Init();
+
+            var events = scoped.ServiceProvider.GetRequiredService<Events>();
+            events.UserLoggedIn += (e, f) =>
+            {
+                Console.WriteLine("User logged in " + f.User.Email);
+            };
         }
 
         app.Run();

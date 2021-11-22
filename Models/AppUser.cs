@@ -6,6 +6,8 @@ public class AppUser : IdentityUser<Guid>
     public string FirstName { get; set; } = "";
 
     public string LastName { get; set; } = "";
+
+    public DateTime? LastActivity { get; set; }
 }
 
 public class AppUserType : ObjectType<AppUser>

@@ -16,7 +16,8 @@ public partial class BusinessLogic
         LoginInput input,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] UserManager<AppUser> userManager,
-        [Service] SignInManager<AppUser> signInManager
+        [Service] SignInManager<AppUser> signInManager,
+        [Service] Events events
     )
     {
         var context = httpContextAccessor.HttpContext;
@@ -37,6 +38,9 @@ public partial class BusinessLogic
             throw new Exception("Unable to login: " + check.ToString());
 
         await signInManager.SignInAsync(user, true, IdentityConstants.ApplicationScheme);
+
+        events.OnUserLoggedIn(user);
+
         return user;
     }
 }

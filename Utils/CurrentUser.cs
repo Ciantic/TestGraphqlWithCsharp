@@ -3,20 +3,16 @@ using Microsoft.AspNetCore.Identity;
 
 public class CurrentUser
 {
-    readonly UserManager<AppUser> _userManager;
+    private readonly UserManager<AppUser> _userManager;
 
-    readonly ClaimsPrincipal _principal;
-
-    public CurrentUser(ClaimsPrincipal principal, UserManager<AppUser> userManager)
+    public CurrentUser(IHttpContextAccessor accessor, UserManager<AppUser> userManager)
     {
+        var principal = accessor.HttpContext?.User;
+        Id = Guid.Parse(userManager.GetUserId(principal));
         _userManager = userManager;
-        _principal = principal;
     }
 
-    public Guid Id
-    {
-        get { return Guid.Parse(_userManager.GetUserId(_principal)); }
-    }
+    public Guid Id { get; set; }
 
     public Task<AppUser> User
     {
@@ -25,7 +21,7 @@ public class CurrentUser
 
     private async Task<AppUser> GetUser()
     {
-        var user = await _userManager.GetUserAsync(_principal);
+        var user = await _userManager.FindByIdAsync(Id.ToString());
         if (user is null)
         {
             throw new Exception("User may have been deleted, but it's claim is still valid?");

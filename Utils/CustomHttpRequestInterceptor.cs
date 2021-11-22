@@ -12,11 +12,13 @@ public class CustomHttpRequestInterceptor : DefaultHttpRequestInterceptor
         CancellationToken cancellationToken
     )
     {
-        AddCurrentUser(context, requestBuilder);
-        AddIdempotencyKey(context, requestBuilder);
+        // AddCurrentUser(context, requestBuilder);
+        // AddIdempotencyKey(context, requestBuilder);
+        // requestBuilder.
+
         return base.OnCreateAsync(context, requestExecutor, requestBuilder, cancellationToken);
     }
-
+    /*
     private static void AddCurrentUser(HttpContext context, IQueryRequestBuilder requestBuilder)
     {
         if (context.User.HasClaim(claim => claim.Type == ClaimTypes.NameIdentifier))
@@ -38,4 +40,5 @@ public class CustomHttpRequestInterceptor : DefaultHttpRequestInterceptor
             catch (FormatException) { }
         }
     }
+    */
 }
