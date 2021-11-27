@@ -35,7 +35,8 @@ public class Program
                     c.AddService<AppDbContext>();
                     c.AddService<CurrentUser>();
                     c.AddService<IdempotencyKey>();
-                    // c.AddParameter(f => f.GetGlobalValue<CurrentUser>("CurrentUser")!);
+                    // c.AddParameter<AppUser>(f => f.GetGlobalValue<AppUser>("CurrentUser")!);
+                    // c.AddParameter<bool>(f => f.)
                 }
             )
             .AddFiltering()
@@ -91,7 +92,7 @@ public class Program
             await init.Init();
 
             var events = scoped.ServiceProvider.GetRequiredService<Events>();
-            events.UserLoggedIn += (e, f) =>
+            events.LoginHandler += (e, f) =>
             {
                 Console.WriteLine("User logged in " + f.User.Email);
             };

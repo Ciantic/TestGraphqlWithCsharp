@@ -8,7 +8,7 @@ public partial class BusinessLogic
         public string Password { get; set; } = "";
     }
 
-    public AppUser? RegisterUser(RegisterUserInput input, AppDbContext dbContext)
+    public AppUser? Register(RegisterUserInput input, AppDbContext dbContext)
     {
         // TODO: Register user
         return null;

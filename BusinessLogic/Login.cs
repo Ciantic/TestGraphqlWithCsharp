@@ -39,7 +39,9 @@ public partial class BusinessLogic
 
         await signInManager.SignInAsync(user, true, IdentityConstants.ApplicationScheme);
 
-        events.OnUserLoggedIn(user);
+        await UpdateLastActivity(user, userManager, events);
+
+        events.OnLogin(user);
 
         return user;
     }

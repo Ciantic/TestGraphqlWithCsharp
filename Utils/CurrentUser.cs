@@ -10,6 +10,7 @@ public class CurrentUser
         var principal = accessor.HttpContext?.User;
         Id = Guid.Parse(userManager.GetUserId(principal));
         _userManager = userManager;
+        Console.WriteLine("created current user");
     }
 
     public Guid Id { get; set; }
