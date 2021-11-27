@@ -5,7 +5,7 @@ public partial class BusinessLogic
     // This is not part of public API
     private static async Task UpdateLastActivity(
         AppUser appUser,
-        UserManager<AppUser> userManager,
+        [Service] UserManager<AppUser> userManager,
         [Service] Events events
     )
     {
