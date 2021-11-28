@@ -19,7 +19,7 @@ public partial class BusinessLogic
         CurrentUser user,
         [Service] UserManager<AppUser> userManager,
         [Service] SignInManager<AppUser> signInManager,
-        [Service] Events events
+        [Service] BusinessEvents events
     )
     {
         var appUser = await user.User;

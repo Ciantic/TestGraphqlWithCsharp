@@ -17,7 +17,7 @@ public partial class BusinessLogic
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] UserManager<AppUser> userManager,
         [Service] SignInManager<AppUser> signInManager,
-        [Service] Events events
+        [Service] BusinessEvents events
     )
     {
         var context = httpContextAccessor.HttpContext;
