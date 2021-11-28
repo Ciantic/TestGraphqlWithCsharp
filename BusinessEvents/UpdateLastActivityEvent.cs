@@ -1,4 +1,4 @@
-public partial class Events
+public partial class BusinessEvents
 {
     public readonly record struct UpdateLastActivityEventArgs(TimeSpan Duration, AppUser User);
 
