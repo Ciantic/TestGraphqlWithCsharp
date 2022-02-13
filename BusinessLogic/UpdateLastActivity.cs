@@ -6,7 +6,7 @@ public partial class BusinessLogic
     private static async Task UpdateLastActivity(
         AppUser appUser,
         [Service] UserManager<AppUser> userManager,
-        [Service] BusinessEvents events
+        [Service] IServiceProvider services
     )
     {
         var lastActivityTimespan = DateTime.UtcNow - appUser.LastActivity;
@@ -23,7 +23,7 @@ public partial class BusinessLogic
 
             if (lastActivityTimespan is not null)
             {
-                events.OnUpdateLastActivity(lastActivityTimespan.Value, appUser);
+                OnUpdateLastActivityEvent.Trigger(appUser, lastActivityTimespan.Value, services);
             }
         }
     }

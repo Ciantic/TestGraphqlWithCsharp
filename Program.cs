@@ -45,7 +45,6 @@ public class Program
 
         builder.Services
             .AddScoped<IInitDb, InitDbDevelopment>()
-            .AddSingleton<BusinessEvents, BusinessEvents>()
             .AddScoped<CurrentUser>()
             .AddScoped<IdempotencyKey>()
             .AddHttpContextAccessor()
@@ -90,12 +89,12 @@ public class Program
         {
             var init = scoped.ServiceProvider.GetRequiredService<IInitDb>();
             await init.Init();
-
-            var events = scoped.ServiceProvider.GetRequiredService<BusinessEvents>();
-            events.LoginHandler += (e, f) =>
-            {
-                Console.WriteLine("User logged in " + f.User.Email);
-            };
+            OnLoginEvent.Listen(
+                (e, f) =>
+                {
+                    Console.WriteLine("User logged in " + f.User.Email);
+                }
+            );
         }
 
         app.Run();

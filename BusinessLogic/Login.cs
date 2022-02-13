@@ -17,7 +17,7 @@ public partial class BusinessLogic
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] UserManager<AppUser> userManager,
         [Service] SignInManager<AppUser> signInManager,
-        [Service] BusinessEvents events
+        [Service] IServiceProvider services
     )
     {
         var context = httpContextAccessor.HttpContext;
@@ -39,10 +39,8 @@ public partial class BusinessLogic
 
         await signInManager.SignInAsync(user, true, IdentityConstants.ApplicationScheme);
 
-        await UpdateLastActivity(user, userManager, events);
-
-        events.OnLogin(user);
-
+        await UpdateLastActivity(user, userManager, services);
+        OnLoginEvent.Trigger(user, services);
         return user;
     }
 }

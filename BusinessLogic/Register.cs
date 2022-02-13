@@ -8,9 +8,14 @@ public partial class BusinessLogic
         public string Password { get; set; } = "";
     }
 
-    public AppUser? Register(RegisterUserInput input, AppDbContext dbContext)
+    public AppUser? Register(
+        RegisterUserInput input,
+        AppDbContext dbContext,
+        [Service] IServiceProvider services
+    )
     {
         // TODO: Register user
+        OnRegisterEvent.Trigger(null as AppUser, dbContext, services);
         return null;
     }
 }

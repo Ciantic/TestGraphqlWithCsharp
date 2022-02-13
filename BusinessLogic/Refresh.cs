@@ -19,11 +19,11 @@ public partial class BusinessLogic
         CurrentUser user,
         [Service] UserManager<AppUser> userManager,
         [Service] SignInManager<AppUser> signInManager,
-        [Service] BusinessEvents events
+        [Service] IServiceProvider services
     )
     {
         var appUser = await user.User;
-        await UpdateLastActivity(appUser, userManager, events);
+        await UpdateLastActivity(appUser, userManager, services);
         await signInManager.RefreshSignInAsync(appUser);
         return true;
     }

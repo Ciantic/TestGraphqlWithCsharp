@@ -9,7 +9,6 @@ public partial class BusinessLogic
     }
 
     // Only authorized users can create thingies
-
     [Authorize]
     async public Task<Thingie?> CreateThingie(
         CreateThingieInput input,
