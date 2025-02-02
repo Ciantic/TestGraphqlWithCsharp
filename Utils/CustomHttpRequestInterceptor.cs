@@ -1,10 +1,8 @@
-using System.Security.Claims;
-using HotChocolate.Execution;
 using HotChocolate.AspNetCore;
-using Microsoft.AspNetCore.Identity;
 
 public class CustomHttpRequestInterceptor : DefaultHttpRequestInterceptor
 {
+    /*
     public override ValueTask OnCreateAsync(
         HttpContext context,
         IRequestExecutor requestExecutor,
@@ -18,6 +16,7 @@ public class CustomHttpRequestInterceptor : DefaultHttpRequestInterceptor
 
         return base.OnCreateAsync(context, requestExecutor, requestBuilder, cancellationToken);
     }
+    */
     /*
     private static void AddCurrentUser(HttpContext context, IQueryRequestBuilder requestBuilder)
     {

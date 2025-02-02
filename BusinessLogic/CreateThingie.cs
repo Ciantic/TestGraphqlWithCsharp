@@ -1,5 +1,4 @@
-using HotChocolate.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using HotChocolate.Authorization;
 
 public partial class BusinessLogic
 {
@@ -10,7 +9,7 @@ public partial class BusinessLogic
 
     // Only authorized users can create thingies
     [Authorize]
-    async public Task<Thingie?> CreateThingie(
+    public async Task<Thingie?> CreateThingie(
         CreateThingieInput input,
         AppDbContext dbContext,
         CurrentUser user

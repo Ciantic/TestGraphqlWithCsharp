@@ -1,7 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.Extensions.DependencyInjection;
 
 public class ErrorFilter : IErrorFilter
 {
@@ -19,32 +16,32 @@ public class ErrorFilter : IErrorFilter
 
 public class Program
 {
-    public async static Task Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        var graphQl = builder.Services
-            .AddGraphQLServer()
+        var graphQl = builder
+            .Services.AddGraphQLServer()
             .AddAuthorization()
             .AddMutationType<BusinessLogic>()
             .AddQueryType<Query>()
             .AddType<AppUserType>()
-            .ConfigureResolverCompiler(
-                c =>
-                {
-                    c.AddService<AppDbContext>();
-                    c.AddService<CurrentUser>();
-                    c.AddService<IdempotencyKey>();
-                    // c.AddParameter<AppUser>(f => f.GetGlobalValue<AppUser>("CurrentUser")!);
-                    // c.AddParameter<bool>(f => f.)
-                }
-            )
+            // .ConfigureResolverCompiler(
+            //     c =>
+            //     {
+            //         c.AddService<AppDbContext>();
+            //         c.AddService<CurrentUser>();
+            //         c.AddService<IdempotencyKey>();
+            //         // c.AddParameter<AppUser>(f => f.GetGlobalValue<AppUser>("CurrentUser")!);
+            //         // c.AddParameter<bool>(f => f.)
+            //     }
+            // )
             .AddFiltering()
             .AddSorting()
             .AddProjections();
 
-        builder.Services
-            .AddScoped<IInitDb, InitDbDevelopment>()
+        builder
+            .Services.AddScoped<IInitDb, InitDbDevelopment>()
             .AddScoped<CurrentUser>()
             .AddScoped<IdempotencyKey>()
             .AddHttpContextAccessor()
@@ -57,12 +54,10 @@ public class Program
         {
             graphQl
                 .AddErrorFilter<ErrorFilter>()
-                .ModifyRequestOptions(
-                    d =>
-                    {
-                        d.IncludeExceptionDetails = true;
-                    }
-                );
+                .ModifyRequestOptions(d =>
+                {
+                    d.IncludeExceptionDetails = true;
+                });
 
             builder.Services.AddDbContext<AppDbContext>(
                 (f) =>

@@ -1,6 +1,3 @@
-using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
-
 public class IdempotencyKey
 {
     public IdempotencyKey(IHttpContextAccessor accessor)

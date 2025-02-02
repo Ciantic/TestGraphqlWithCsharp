@@ -1,5 +1,4 @@
-using HotChocolate.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using HotChocolate.Authorization;
 
 public partial class Query
 {

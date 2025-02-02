@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Identity;
-
 public class Thingie
 {
     public Guid Id { get; set; }

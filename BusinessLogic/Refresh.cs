@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using HotChocolate.AspNetCore.Authorization;
+using HotChocolate.Authorization;
 using Microsoft.AspNetCore.Identity;
 
 public partial class BusinessLogic
